@@ -5,7 +5,7 @@ import os
 
 from flask import Flask
 
-from . import db
+from . import db, auth
 
 
 def create_app(test_config=None):
@@ -30,7 +30,10 @@ def create_app(test_config=None):
       pass
 
     # Link the app to the db
-    db.init_app(app)  
+    db.init_app(app)
+
+    # Register the auth blueprint
+    app.register_blueprint(auth.bp)  
     
     @app.route('/welcome')
     def welcome():

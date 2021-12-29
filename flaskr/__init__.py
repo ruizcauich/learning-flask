@@ -6,6 +6,7 @@ import os
 from flask import Flask
 
 from . import db, auth
+from . import blog
 
 
 def create_app(test_config=None):
@@ -33,7 +34,10 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # Register the auth blueprint
-    app.register_blueprint(auth.bp)  
+    app.register_blueprint(auth.bp)
+
+    app.register_blueprint(blog.blog_bp)
+    app.add_url_rule('/', endpoint='index')
     
     @app.route('/welcome')
     def welcome():

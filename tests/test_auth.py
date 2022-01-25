@@ -50,7 +50,7 @@ def test_login(client, auth):
         client.get('/')
 
         assert session['user_id'] == 1
-        assert session['username'] == 'test'
+        assert g.user['username'] == 'test'
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'),(

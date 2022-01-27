@@ -16,11 +16,19 @@ blog_bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
 
-    posts = db.execute(
-        'SELECT p.id, title, content, created, author_id, username '
-        'FROM posts p JOIN users u ON u.id = author_id '
-        'ORDER BY created DESC'
-    ).fetchall()
+    search_factor = request.args.get('q')
+
+    if search_factor is not None:
+        sql_query = 'SELECT p.id, title, content, created, author_id, username '\
+                    'FROM posts p JOIN users u ON u.id = author_id '\
+                    f'WHERE p.title like "%{search_factor}%" OR p.content LIKE "%{search_factor}%"'\
+                    'ORDER BY created DESC'
+    else:
+        sql_query = 'SELECT p.id, title, content, created, author_id, username '\
+                    'FROM posts p JOIN users u ON u.id = author_id '\
+                    'ORDER BY created DESC'
+
+    posts = db.execute(sql_query).fetchall()
 
     return render_template('blog/index.html', posts=posts)
 

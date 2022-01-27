@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block header %}
+    <form method="GET" id="search_box">
+        <input type="text" name="q" value="{{ request.args.get('q') }}" placeholder="¿Buscas algo?">
+        <button>Buscar</button>
+    </form>
     <h1>{% block title %}Publicaciones{% endblock %}</h1>
     {% if g.user %}
         <a class="action" href="{{ url_for('blog.create_post') }}">Nuevo post</a>
